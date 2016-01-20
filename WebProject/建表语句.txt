@@ -1,0 +1,5 @@
+create database web_db;
+create table t_page(page_id int primary key auto_increment, page_title varchar(100), page_content varchar(1000));
+create table t_user(user_name varchar(100), user_password varchar(100), user_state int);
+insert into t_user(user_name, user_password, user_state) values ("xx", "123456", 1);
+insert into t_page(page_title, page_content) values ("天安门", "我爱北京天安门，天安门上太阳升。");

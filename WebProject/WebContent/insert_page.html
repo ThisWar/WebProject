@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>insert_page</title>
+<script type="text/javascript">
+	function openWindow() {
+		window.open("upload_file.jsp", "_blank", "location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=400, top=200,left=200");
+	}
+</script>
+</head>
+<body>
+    <div style="width: 80%; background-color: gray; margin: auto;">
+        <form action="insert_page.jsp" method="post">
+            <h2>标题</h2>
+            <input type="text" name="title" />
+            <h2>内容</h2>
+            <textarea rows="20" cols="80" id="textarea1" name="content"></textarea>
+            <br>
+            <input type="button" value="添加图片" onclick="openWindow()" />
+            <input type="submit" value="提交">
+        </form>
+    </div>
+</body>
+</html>
