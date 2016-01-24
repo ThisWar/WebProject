@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>manager</title>
+<title>insert_page_check</title>
 <link href="CSS/bootstrap.min.css" rel="stylesheet">
 <script src="JAVASCRIPT/jquery-2.2.0.min.js"></script>
 <script src="JAVASCRIPT/bootstrap.min.js"></script>
@@ -25,41 +25,39 @@
     	{
     		out.print("<script>alert('请重新登录！');window.location.href='login.jsp'</script>");
     	}
-
     	try
     	{
     		DataBaseConnection dataBaseConnection = new DataBaseConnection();
     		Connection connection = dataBaseConnection.getConnection();
-    		Statement statement = connection.createStatement();
+    		request.setCharacterEncoding("UTF-8");
 
-    		ResultSet resultSet = statement.executeQuery("select * from t_page");
+    		String title = new String(request.getParameter("title").getBytes(), "UTF-8");
+    		String content = request.getParameter("content");
 
-    		out.println("<div style=\"margin: auto; width: 80%;\">");
-    		//out.println("<h2>");
-
-    		//out.println("<a style=\"float: left;\" href=\"index.jsp\">首页</a>");
-    		out.println("<br />");
-    		out.println("<table class=\"table table-striped\">");
-    		while (resultSet.next())
+    		if ((title != null) && (content != null))
     		{
-    			out.println("<tr>");
-    			out.println("<td>");
-    			out.println(resultSet.getString("page_title"));
-    			out.println("</td>");
-    			out.println("<td>");
-    			out.println("<a href=\"update_page.jsp?number=" + resultSet.getLong("page_id") + "\">" + "修改" + "</a>");
-    			out.println("</td>");
-    			out.println("<td>");
-    			out.println("<a href=\"delete_page.jsp?number=" + resultSet.getLong("page_id") + "\">" + "删除" + "</a>");
-    			out.println("</td>");
-    			out.println("</tr>");
+    			// 实例化Statement对象
+    			PreparedStatement statement = connection.prepareStatement("insert into t_page(page_title, page_content) values (?, ?)");
+    			//statement.setInt(1, 1);
+    			statement.setString(1, title);
+    			statement.setString(2, content);
+    			int i = statement.executeUpdate();
+    			if (i == 1)
+    			{
+    				out.println("<div style=\"width: 80%; margin: auto;\" class=\"form-group\">");
+    				out.println("<h4>添加成功</h4>");
+    				out.println("</div>");
+    				out.println("<script>alert('添加成功！');window.location.href='manager.jsp'</script>");
+    			}
+    			else
+    			{
+    				out.println("<div style=\"width: 80%; margin: auto;\" class=\"form-group\">");
+    				out.println("<h4>添加失败</h4>");
+    				out.println("</div>");
+    				out.println("<script>alert('添加成功！');window.location.href='manager.jsp'</script>");
+    			}
+    			statement.close();
     		}
-    		out.println("</table>");
-    		//out.println("</h2>");
-    		out.println("</div>");
-
-    		resultSet.close();
-    		statement.close();
     		dataBaseConnection.close();
     	}
     	catch (Exception e)
@@ -68,12 +66,5 @@
     		out.println(e.getMessage());
     	}
     %>
-
-
-    <div style="margin: auto; width: 80%;">
-        <h2>
-            <a class="btn btn-primary" href="insert_page.jsp">新增文章</a>
-        </h2>
-    </div>
 </body>
 </html>

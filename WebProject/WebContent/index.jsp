@@ -6,88 +6,105 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>index</title>
+<title></title>
+<link href="CSS/bootstrap.min.css" rel="stylesheet">
+<script src="JAVASCRIPT/jquery-2.2.0.min.js"></script>
+<script src="JAVASCRIPT/bootstrap.min.js"></script>
 </head>
 <body>
+    <jsp:include page="navbar.jsp" />
     <%
-    	try {
+    	try
+    	{
     		DataBaseConnection dataBaseConnection = new DataBaseConnection();
     		Connection connection = dataBaseConnection.getConnection();
     		Statement statement = connection.createStatement();
 
     		String number = request.getParameter("number");
 
-    		if (number == null) {
+    		if (number == null)
+    		{
     			int total = 0; // 总记录数
-    			int page_record = 20; // 每页记录数
+    			int page_record = 10; // 每页记录数
     			int page_total = 0; // 总页数
     			int page_num = 0; // 当前页数
 
-    			if ((request.getParameter("page_num") != null) && (request.getParameter("page_num") != "")) {
+    			if ((request.getParameter("page_num") != null) && (request.getParameter("page_num") != ""))
+    			{
     				page_num = Integer.parseInt(request.getParameter("page_num"));
     			}
 
     			ResultSet resultSet = statement.executeQuery("select count(*) from t_page");
-    			while (resultSet.next()) {
+    			while (resultSet.next())
+    			{
     				total = resultSet.getInt(1);
     			}
-    			//out.println("total = " + total);
     			page_total = (total + page_record - 1) / page_record;
-    			//out.println("page_total = " + page_total);
     			resultSet = statement.executeQuery("select * from t_page limit " + (page_num * page_record) + ", " + page_record);
 
-    			out.println("<div style=\"margin: auto; background-color: #c0c0c0; width: 80%;\">");
-    			out.println("<h2>");
-
-    			out.println("<a style=\"float: left;\" href=\"index.jsp\">首页</a>");
-    			out.println("<a style=\"float: right;\" href=\"login.html\">管理员登陆</a>");
     			out.println("<br />");
-    			out.println("<div style=\"background-color: gray; width: 50%; height: 80%; margin: auto;\">");
-    			while (resultSet.next()) {
+    			out.println("<div style=\" width: 80%; margin: auto;\">");
+    			out.println("<table class=\"table table-striped\">");
+
+    			while (resultSet.next())
+    			{
+    				out.println("<tr>");
+    				out.println("<td>");
     				out.println("<a href=\"index.jsp?number=" + resultSet.getLong("page_id") + "\">" + resultSet.getString("page_title") + "</a>");
-    				out.println("<br />");
+    				out.println("</td>");
+    				out.println("</tr>");
     			}
-    			out.println("</div>");
-    			out.println("<br />");
-    			out.println("</h2>");
 
-    			out.println("<div style=\"background-color: gray; width: 50%; height: 80%; margin: auto;\">");
-    			out.println("<h4>");
+    			out.println("</table>");
+
+    			out.println("<br />");
+
+    			out.println("<ul class=\"pagination\">");
+    			out.println("<li>");
     			out.println("<a style=\"float: left;\" href=\"index.jsp?page_num=0\">首页&nbsp;&nbsp;</a>");
-    			out.println("&nbsp;");
-    			out.println("&nbsp;");
-    			if (page_num > 0) {
+    			out.println("</li>");
+    			if (page_num > 0)
+    			{
+    				out.println("<li>");
     				out.println("<a style=\"float: left;\" href=\"index.jsp?page_num=" + (page_num - 1) + "\">上一页&nbsp;&nbsp;</a>");
+    				out.println("</li>");
     			}
-    			if (page_num < (page_total - 1)) {
+    			if (page_num < (page_total - 1))
+    			{
+    				out.println("<li>");
     				out.println("<a style=\"float: left;\" href=\"index.jsp?page_num=" + (page_num + 1) + "\">&nbsp;下一页&nbsp;</a>");
+    				out.println("</li>");
     			}
-    			out.println("&nbsp;");
-    			out.println("&nbsp;");
+    			out.println("<li>");
     			out.println("<a style=\"float: left;\" href=\"index.jsp?page_num=" + (page_total - 1) + "\">&nbsp;&nbsp;末页</a>");
-    			out.println("</h4>");
-    			out.println("</div>");
+    			out.println("</li>");
+    			out.println("</ul>");
 
     			out.println("</div>");
     			resultSet.close();
-    		} else {
+    		}
+    		else
+    		{
     			ResultSet resultSet = statement.executeQuery("select * from t_page where page_id = " + number);
 
-    			out.println("<div style=\"margin: auto; background-color: gray; text-align: center; width: 80%;\">");
-    			//out.println("<h2>");
+    			out.println("<div style=\" width: 80%; margin: auto; text-align: center;\">");
+    			out.println("<table class=\"table table-striped\">");
 
-    			out.println("<a style=\"float: left;\" href=\"index.jsp\">首页</a>");
-    			out.println("<br />");
-
-    			while (resultSet.next()) {
-    				out.println("<br />");
+    			while (resultSet.next())
+    			{
+    				out.println("<tr>");
+    				out.println("<td>");
     				out.println(resultSet.getString("page_title"));
-    				out.println("<br />");
-    				out.println("<br />");
+    				out.println("</td>");
+    				out.println("</tr>");
+    				out.println("<tr>");
+    				out.println("<td class=\"active\">");
     				out.println(resultSet.getString("page_content"));
+    				out.println("</td>");
+    				out.println("</tr>");
     			}
+    			out.println("</table>");
 
-    			//out.println("</h2>");
     			out.println("</div>");
 
     			resultSet.close();
@@ -95,7 +112,9 @@
 
     		statement.close();
     		dataBaseConnection.close();
-    	} catch (Exception e) {
+    	}
+    	catch (Exception e)
+    	{
     		// TODO: handle exception
     		out.println(e.getMessage());
     	}
