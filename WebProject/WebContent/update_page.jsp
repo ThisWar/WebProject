@@ -18,7 +18,7 @@
 		document.onkeydown = function(ev) {
 			var oEvent = ev || event;
 			if (oEvent.keyCode == 13) {
-				oTxt1.value += "<br>";
+				oTxt1.value += "<br/>";
 			}
 		};
 	};

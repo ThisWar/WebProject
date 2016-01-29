@@ -13,6 +13,7 @@
 </head>
 <body>
     <jsp:include page="navbar.jsp" />
+    
     <%
     	//由于password是跳转的依据，因此借助session中是否有password信息来判断用户是否有登录，
     	if (session.getAttribute("password") == null)
@@ -32,12 +33,29 @@
     		Connection connection = dataBaseConnection.getConnection();
     		Statement statement = connection.createStatement();
 
-    		ResultSet resultSet = statement.executeQuery("select * from t_page");
+            
+			int total = 0; // 总记录数
+			int page_record = 10; // 每页记录数
+			int page_total = 0; // 总页数
+			int page_num = 0; // 当前页数
 
+			if ((request.getParameter("page_num") != null) && (request.getParameter("page_num") != ""))
+			{
+				page_num = Integer.parseInt(request.getParameter("page_num"));
+			}
+
+			ResultSet resultSet = statement.executeQuery("select count(*) from t_page");
+			while (resultSet.next())
+			{
+				total = resultSet.getInt(1);
+			}
+			page_total = (total + page_record - 1) / page_record;
+			resultSet = statement.executeQuery("select * from t_page limit " + (page_num * page_record) + ", " + page_record);
+
+    		out.println("<br />");
     		out.println("<div style=\"margin: auto; width: 80%;\">");
-    		//out.println("<h2>");
-
-    		//out.println("<a style=\"float: left;\" href=\"index.jsp\">首页</a>");
+    		out.println("<br />");
+    		out.println("<h2>文章管理</h2>");
     		out.println("<br />");
     		out.println("<table class=\"table table-striped\">");
     		while (resultSet.next())
@@ -55,7 +73,32 @@
     			out.println("</tr>");
     		}
     		out.println("</table>");
-    		//out.println("</h2>");
+            
+            
+    		out.println("<br />");
+
+			out.println("<ul class=\"pagination\">");
+			out.println("<li>");
+			out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=0\">首页&nbsp;&nbsp;</a>");
+			out.println("</li>");
+			if (page_num > 0)
+			{
+				out.println("<li>");
+				out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_num - 1) + "\">上一页&nbsp;&nbsp;</a>");
+				out.println("</li>");
+			}
+			if (page_num < (page_total - 1))
+			{
+				out.println("<li>");
+				out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_num + 1) + "\">&nbsp;下一页&nbsp;</a>");
+				out.println("</li>");
+			}
+			out.println("<li>");
+			out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_total - 1) + "\">&nbsp;&nbsp;末页</a>");
+			out.println("</li>");
+			out.println("</ul>");
+            
+            
     		out.println("</div>");
 
     		resultSet.close();

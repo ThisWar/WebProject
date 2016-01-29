@@ -45,6 +45,7 @@
     			out.println("<br />");
     			out.println("<div style=\" width: 80%; margin: auto;\">");
     			out.println("<table class=\"table table-striped\">");
+    			out.println("<br />");
 
     			while (resultSet.next())
     			{
@@ -89,6 +90,7 @@
 
     			out.println("<div style=\" width: 80%; margin: auto; text-align: center;\">");
     			out.println("<table class=\"table table-striped\">");
+    			out.println("<br />");
 
     			while (resultSet.next())
     			{
