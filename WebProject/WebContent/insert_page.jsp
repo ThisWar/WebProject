@@ -8,6 +8,18 @@
 <script src="JAVASCRIPT/jquery-2.2.0.min.js"></script>
 <script src="JAVASCRIPT/bootstrap.min.js"></script>
 <script type="text/javascript">
+
+    //多行文本框，按下回车键自动添加换行符。
+    window.onload = function() {
+    	var oTxt1 = document.getElementById('textarea1');
+    	document.onkeydown = function(ev) {
+    		var oEvent = ev || event;
+    		if (oEvent.keyCode == 13) {
+    			oTxt1.value += "<br>";
+    		}
+    	};
+    };
+
 	function openWindow() {
 		window.open("upload_file.jsp", "_blank", "location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=300, top=200,left=200");
 	}
