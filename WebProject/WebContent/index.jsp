@@ -31,40 +31,7 @@
 
     		if (number == null)
     		{
-    			if ((KeyWord != null) && (KeyWord != ""))
-    			{
-    				// 需要做查询
-    				String s = "select * from t_page where page_title like \"%" + KeyWord + "%\";";
-    				ResultSet resultSet = statement.executeQuery(s);
-    				out.println("<br />");
-    				out.println("<div style=\" width: 80%; margin: auto;\">");
-
-    				out.println("<div class=\"form-group\">");
-    				out.println("<form class=\"form-inline\" role=\"form\" action = \"index.jsp\" method = \"post\">");
-    				out.println("<input type = \"text\" class=\"form-control\" name = \"KeyWord\"/>");
-    				out.println("<input type = \"submit\" class=\"btn btn-default\" value = \"查询\"/>");
-    				out.println("</form>");
-    				out.println("</div>");
-
-    				out.println("<table class=\"table table-striped\">");
-    				out.println("<br />");
-
-    				while (resultSet.next())
-    				{
-    					out.println("<tr>");
-    					out.println("<td>");
-    					out.println("<a href=\"index.jsp?number=" + resultSet.getLong("page_id") + "\">" + resultSet.getString("page_title") + "</a>");
-    					out.println("</td>");
-    					out.println("</tr>");
-    				}
-
-    				out.println("</table>");
-
-    				out.println("<br />");
-
-    				resultSet.close();
-    			}
-    			else
+    			if ((KeyWord == null) || (KeyWord == ""))
     			{
     				// 不需要做查询
     				int total = 0; // 总记录数
@@ -135,7 +102,39 @@
     				out.println("</div>");
     				resultSet.close();
     			}
+    			else
+    			{
+    				// 需要做查询
+    				String s = "select * from t_page where page_title like \"%" + KeyWord + "%\";";
+    				ResultSet resultSet = statement.executeQuery(s);
+    				out.println("<br />");
+    				out.println("<div style=\" width: 80%; margin: auto;\">");
 
+    				out.println("<div class=\"form-group\">");
+    				out.println("<form class=\"form-inline\" role=\"form\" action = \"index.jsp\" method = \"post\">");
+    				out.println("<input type = \"text\" class=\"form-control\" name = \"KeyWord\"/>");
+    				out.println("<input type = \"submit\" class=\"btn btn-default\" value = \"查询\"/>");
+    				out.println("</form>");
+    				out.println("</div>");
+
+    				out.println("<table class=\"table table-striped\">");
+    				out.println("<br />");
+
+    				while (resultSet.next())
+    				{
+    					out.println("<tr>");
+    					out.println("<td>");
+    					out.println("<a href=\"index.jsp?number=" + resultSet.getLong("page_id") + "\">" + resultSet.getString("page_title") + "</a>");
+    					out.println("</td>");
+    					out.println("</tr>");
+    				}
+
+    				out.println("</table>");
+
+    				out.println("<br />");
+
+    				resultSet.close();
+    			}
     		}
     		else
     		{
