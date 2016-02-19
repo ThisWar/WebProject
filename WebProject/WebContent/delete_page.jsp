@@ -12,7 +12,7 @@
 <script src="JAVASCRIPT/bootstrap.min.js"></script>
 </head>
 <body>
-    <jsp:include page="navbar.jsp" />
+    <jsp:include page="navbar_admin.jsp" />
     <%
     	//由于password是跳转的依据，因此借助session中是否有password信息来判断用户是否有登录，
     	if (session.getAttribute("password") == null)

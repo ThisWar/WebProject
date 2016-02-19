@@ -26,7 +26,7 @@
 </script>
 </head>
 <body>
-    <jsp:include page="navbar.jsp" />
+    <jsp:include page="navbar_admin.jsp" />
     <div style="margin: auto; width: 80%;" class="form-group">
         <form action="insert_page_check.jsp" method="post">
             <label>标题</label>
