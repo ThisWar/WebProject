@@ -54,7 +54,7 @@
     			}
     			preparedStatement.close();
     		}
-    		dataBaseConnection.close();
+            connection.close();
     	}
     	catch (Exception e)
     	{

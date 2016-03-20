@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>manager</title>
+<title>order_manager</title>
 <link href="CSS/bootstrap.min.css" rel="stylesheet">
 <script src="JAVASCRIPT/jquery-2.2.0.min.js"></script>
 <script src="JAVASCRIPT/bootstrap.min.js"></script>
@@ -43,32 +43,43 @@
     			page_num = Integer.parseInt(request.getParameter("page_num"));
     		}
 
-    		ResultSet resultSet = statement.executeQuery("select count(*) from t_page");
+    		ResultSet resultSet = statement.executeQuery("select count(*) from t_client");
     		while (resultSet.next())
     		{
     			total = resultSet.getInt(1);
     		}
     		page_total = (total + page_record - 1) / page_record;
-    		resultSet = statement.executeQuery("select * from t_page limit " + (page_num * page_record) + ", " + page_record);
+    		resultSet = statement.executeQuery("select t_client.client_id, t_client.client_name, t_client.client_phone, t_page.page_title from t_client, t_page where t_client.client_number = t_page.page_id limit " + (page_num * page_record) + ", " + page_record);
 
     		out.println("<br />");
     		out.println("<div style=\"margin: auto; width: 80%;\">");
     		out.println("<br />");
-    		out.println("<h2>景点管理</h2>");
+    		out.println("<h2>订单管理</h2>");
     		out.println("<br />");
     		out.println("<table class=\"table table-striped\">");
+    		out.println("<tr>");
+    		out.println("<th>订单编号</th>");
+    		out.println("<th>客户姓名</th>");
+    		out.println("<th>客户电话</th>");
+    		out.println("<th>景点名称</th>");
+    		out.println("</tr>");
+
     		while (resultSet.next())
     		{
     			out.println("<tr>");
     			out.println("<td>");
-    			out.println(resultSet.getString("page_title"));
+    			out.println(resultSet.getString("t_client.client_id"));
     			out.println("</td>");
     			out.println("<td>");
-    			out.println("<a href=\"update_page.jsp?number=" + resultSet.getLong("page_id") + "\">" + "修改" + "</a>");
+    			out.println(resultSet.getString("t_client.client_name"));
     			out.println("</td>");
     			out.println("<td>");
-    			out.println("<a href=\"delete_page.jsp?number=" + resultSet.getLong("page_id") + "\">" + "删除" + "</a>");
+    			out.println(resultSet.getString("t_client.client_phone"));
     			out.println("</td>");
+    			out.println("<td>");
+    			out.println(resultSet.getString("t_page.page_title"));
+    			out.println("</td>");
+
     			out.println("</tr>");
     		}
     		out.println("</table>");
@@ -77,22 +88,22 @@
 
     		out.println("<ul class=\"pagination\">");
     		out.println("<li>");
-    		out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=0\">首页&nbsp;&nbsp;</a>");
+    		out.println("<a style=\"float: left;\" href=\"order_manager.jsp?page_num=0\">首页&nbsp;&nbsp;</a>");
     		out.println("</li>");
     		if (page_num > 0)
     		{
     			out.println("<li>");
-    			out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_num - 1) + "\">上一页&nbsp;&nbsp;</a>");
+    			out.println("<a style=\"float: left;\" href=\"order_manager.jsp?page_num=" + (page_num - 1) + "\">上一页&nbsp;&nbsp;</a>");
     			out.println("</li>");
     		}
     		if (page_num < (page_total - 1))
     		{
     			out.println("<li>");
-    			out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_num + 1) + "\">&nbsp;下一页&nbsp;</a>");
+    			out.println("<a style=\"float: left;\" href=\"order_manager.jsp?page_num=" + (page_num + 1) + "\">&nbsp;下一页&nbsp;</a>");
     			out.println("</li>");
     		}
     		out.println("<li>");
-    		out.println("<a style=\"float: left;\" href=\"manager.jsp?page_num=" + (page_total - 1) + "\">&nbsp;&nbsp;末页</a>");
+    		out.println("<a style=\"float: left;\" href=\"order_manager.jsp?page_num=" + (page_total - 1) + "\">&nbsp;&nbsp;末页</a>");
     		out.println("</li>");
     		out.println("</ul>");
 
@@ -108,12 +119,5 @@
     		out.println(e.getMessage());
     	}
     %>
-
-
-    <div style="margin: auto; width: 80%;">
-        <h2>
-            <a class="btn btn-primary" href="insert_page.jsp">新增景点介绍</a>
-        </h2>
-    </div>
 </body>
 </html>

@@ -50,7 +50,7 @@
 
     			resultSet.close();
     			statement.close();
-    			dataBaseConnection.close();
+                connection.close();
     		} catch (Exception e) {
     			// TODO: handle exception
     			out.println(e.getMessage());

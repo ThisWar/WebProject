@@ -158,13 +158,22 @@
     				out.println("</tr>");
     			}
     			out.println("</table>");
+    			out.println("<br />");
+
+    			out.println("<ul class=\"pagination\">");
+    			out.println("<li>");
+    			out.println("<a style=\"float: left;\" href=\"client_information.jsp?number=" + number + "\">预定门票</a>");
+    			out.println("</li>");
+    			out.println("</ul>");
+
     			out.println("</div>");
+    			out.println("<br />");
 
     			resultSet.close();
     		}
 
     		statement.close();
-    		dataBaseConnection.close();
+    		connection.close();
     	}
     	catch (Exception e)
     	{

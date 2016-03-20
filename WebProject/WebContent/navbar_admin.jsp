@@ -14,13 +14,13 @@
             <a href="index.jsp">首页</a>
         </li>
         <li>
-            <a href="manager.jsp">文章管理</a>
+            <a href="manager.jsp">景点管理</a>
         </li>
-        <li>
+        <!-- <li>
             <a href="manager.jsp">票务管理</a>
-        </li>
+        </li> -->
         <li>
-            <a href="manager.jsp">订单管理</a>
+            <a href="order_manager.jsp">订单管理</a>
         </li>
     </ul>
 </body>
